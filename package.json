@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "vue": "3.2.33",
+    "vue-google-maps-community-fork": "0.2.0"
+  }
+}
