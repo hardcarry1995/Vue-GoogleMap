@@ -1,0 +1,36 @@
+.map-label {
+    background-color: rgb(154, 240, 230);
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+
+.info-popup {
+    display: flex;
+    p {
+        margin: 0;
+    }
+    .detail {
+        margin-left: 10px;
+        font-size: 14px;
+        max-width: 150px;
+        display: flex;
+        flex-direction: column;
+        .basic {
+            display: flex;
+            justify-content: space-between;
+
+            .name {
+                font-weight: bold;
+            }
+        }
+        .info {
+            margin: 3px 0;
+            flex-grow: 1;
+        }
+        .slogan {
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+}
