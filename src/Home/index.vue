@@ -4,8 +4,12 @@
             v-for="(marker, index) in markers"
             :key="index"
             :position="marker?.coordinates"
-            @mouseover="showInfoById = index"
-            @mouseout="showInfoById = false"
+            @click="showInfoById = index"
+            :label="{
+                text: index + 1 + '',
+                fontSize: '16px',
+                className: 'map-label',
+            }"
         >
             <!-- :icon="{
                 url: marker.avatar_uri,
@@ -13,7 +17,8 @@
                 labelOrigin: { x: 0, y: 12 },
                 custom: 'px'
             }" -->
-        <!-- @click="showInfoById = index" -->
+            <!-- @mouseover="showInfoById = index"
+            @mouseout="showInfoById = false" -->
         <GMapInfoWindow
             :opened="showInfoById === index"
             :closeclick="true"
