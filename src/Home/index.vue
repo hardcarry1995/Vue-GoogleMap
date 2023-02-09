@@ -1,87 +1,96 @@
+<template>
+    <GMapMap :center="center" :zoom="zoom" style='height: 100vh'>
+        <GMapMarker
+            v-for="(marker, index) in markers"
+            :key="index"
+            :position="marker?.coordinates"
+            @mouseover="showInfoById = index"
+            @mouseout="showInfoById = false"
+        >
+            <!-- :icon="{
+                url: marker.avatar_uri,
+                scaledSize: { width: 40, height: 40 },
+                labelOrigin: { x: 0, y: 12 },
+                custom: 'px'
+            }" -->
+        <!-- @click="showInfoById = index" -->
+        <GMapInfoWindow
+            :opened="showInfoById === index"
+            :closeclick="true"
+            @closeclick="showInfoById = false"
+        >
+            <div class="info-popup">
+                <div><img :src="marker.avatar_uri" /></div>
+                <div class="detail">
+                    <p class="basic">
+                        <span class="name">{{ marker.name }}</span>
+                        <span class="score">{{ marker.qualitySCore }}</span>
+                    </p>
+                    <p class="info">{{ marker.info }}</p>
+                    <p class="slogan">{{ marker.slogan }}</p>
+                </div>
+            </div>
+        </GMapInfoWindow>
+      </GMapMarker>
+    </GMapMap>
+  </template>
+  
 <script>
-import { ref } from 'vue'
 import { getServiceNotice } from './helpers'
+import "./style.scss"
 
 export default {
-    setup() {
-        const center = ref({ lat: 45.464664, lng: 9.18854 })
-        const markers = ref([{ position: { lat: 45.464664, lng: 9.18854 } }])
-        const loading = ref(true)
-
-        const guide = {
-            'avatar_uri':
-                'https://vapor-eu-south-1-assets-1609175124.s3.eu-south-1.amazonaws.com/74/conversions/valerio-thumb.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFgaCmV1LXNvdXRoLTEiRjBEAiB29cM%2FBCAjgkLQ%2FV9wEzcaF3mNI%2BKlPAp7g43TkDyzNwIgE7l8PwGKA3Jdm0ZdNcjn2QoCtQnx99NR0qe41IPLfT8qkAMIwf%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARACGgw4MTc5NzIzNDMxMDEiDKspEEJnokkba%2Bxr1yrkAhBxtA83ISkGmF9QmNZwkB5joBFwMJOUcAcX9ZLxx02GMEQyzaZjhhYz1vJfBYPi9R2yM2SySWzhUK40igSAH%2B8onEAZ0vs4S%2BolpwsUaWFwf%2Bw4C6T1jDZJOIHk91yEPMw2%2B1pGdnGpKxJqmWNWpUYtcbQesCwVejv54m7PvkHaHplmZx97WK5dLBOmbkZiEhESw6gkb%2FwGO2MmSk%2Bq6TfU9p2bzrZD1IS6vSUnadi6PW4aesKYdRdM2QHCgUUrPXQvhqGCb%2FQwQR7zlEPkbZ9EjVwkMuFoUBdmJdDVTZ1docK913b8AJfksOR6kq1yfQK%2FRAHdfZHdWE6LRDXWxMAb7q96CzLF4xx1dByex40QwaVI1wPJcQY6iF3zz5x02P5MCFIKUJL2BQ3NHjYBbdCwA5zA5PQCesoxHLL%2BzjEjUFxm2ziEzJu%2F%2FmE5Sc1OJTRYrFwE4R4KjeN4fMUf7EMxB%2F4rMO%2B7tZ4GOp8BRRqR9ASZQ9vnBajllq4n7fFTBUZGzFeMoJN9GFpqop%2BpzJQgALsrrov3ywMMHpcxWoQt7CPdT1VL1TaD%2BDXifZw92Dx7Y9qSzCHxfKRNBzF2ClLKcnuabrM8rWcPAQjXXpt2kQzvDj6iolOD2LcolRBTZJ9yVhZA0VnUFgSz8TL00Gnm3XV5ssRWNMXvtZMbFZu8sbKb%2FQOpKsN5ft2D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA344XTOE6WUI444NW%2F20230122%2Feu-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230122T172733Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Signature=ed3d495c79424dc50d4a865546ebc400dbec9937deda3787234bf0d808de2d9c',
-            'flag_name': 'gp.svg',
-            'id': 19,
-            'info': '45yrs Guadeloupe, lives in Milan, Metropolitan City of Milan, Italy',
-            'is_certified': false,
-            'name': 'Marco',
-            'qualitySCore': 0,
-            'slogan': 'Test slogan hhkj jjj',
-            'private_guide': { 'title': null },
-            'photo_uri':
-                'https://vapor-eu-south-1-assets-1609175124.s3.eu-south-1.amazonaws.com/74/conversions/valerio-thumb-cropped.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFgaCmV1LXNvdXRoLTEiRjBEAiB29cM%2FBCAjgkLQ%2FV9wEzcaF3mNI%2BKlPAp7g43TkDyzNwIgE7l8PwGKA3Jdm0ZdNcjn2QoCtQnx99NR0qe41IPLfT8qkAMIwf%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARACGgw4MTc5NzIzNDMxMDEiDKspEEJnokkba%2Bxr1yrkAhBxtA83ISkGmF9QmNZwkB5joBFwMJOUcAcX9ZLxx02GMEQyzaZjhhYz1vJfBYPi9R2yM2SySWzhUK40igSAH%2B8onEAZ0vs4S%2BolpwsUaWFwf%2Bw4C6T1jDZJOIHk91yEPMw2%2B1pGdnGpKxJqmWNWpUYtcbQesCwVejv54m7PvkHaHplmZx97WK5dLBOmbkZiEhESw6gkb%2FwGO2MmSk%2Bq6TfU9p2bzrZD1IS6vSUnadi6PW4aesKYdRdM2QHCgUUrPXQvhqGCb%2FQwQR7zlEPkbZ9EjVwkMuFoUBdmJdDVTZ1docK913b8AJfksOR6kq1yfQK%2FRAHdfZHdWE6LRDXWxMAb7q96CzLF4xx1dByex40QwaVI1wPJcQY6iF3zz5x02P5MCFIKUJL2BQ3NHjYBbdCwA5zA5PQCesoxHLL%2BzjEjUFxm2ziEzJu%2F%2FmE5Sc1OJTRYrFwE4R4KjeN4fMUf7EMxB%2F4rMO%2B7tZ4GOp8BRRqR9ASZQ9vnBajllq4n7fFTBUZGzFeMoJN9GFpqop%2BpzJQgALsrrov3ywMMHpcxWoQt7CPdT1VL1TaD%2BDXifZw92Dx7Y9qSzCHxfKRNBzF2ClLKcnuabrM8rWcPAQjXXpt2kQzvDj6iolOD2LcolRBTZJ9yVhZA0VnUFgSz8TL00Gnm3XV5ssRWNMXvtZMbFZu8sbKb%2FQOpKsN5ft2D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA344XTOE6WUI444NW%2F20230122%2Feu-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230122T172733Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Signature=bec18dca1dbae0213de618351c83f9f134036f10b98dd8101c37d87f31130edd',
-        }
-
-        return { center, markers, loading, guide }
+    data() {
+        return {
+            loading: false,
+            center: { lat: 45.4642035, lng: 9.189982 },
+            zoom: 12,
+            markers: [
+                {
+                    avatar_uri :  "https://vapor-eu-south-1-assets-1609175124.s3.eu-south-1.amazonaws.com/74/conversions/valerio-thumb.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPf%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCmV1LXNvdXRoLTEiRjBEAiBjBjJyKq8Ym0JHc9IxwKGhw66rPqV8C1Flj40vrVoh5QIge8y3nyZIxYFo4tgmOYYOuXx7N2pNq85Bmux7donkMLIqkAMIgP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARACGgw4MTc5NzIzNDMxMDEiDIiTd9%2B8sOxgCJc%2FRCrkApYafrZugA4N1jUUrmRetmR4QED%2B2TBKJEIr%2B2So4by%2BgFpWlKIulR%2FhRETnVbDlFHJM0iOzjioRaYirpLiKZa%2FyoPa21Gbcw5RB2MTS%2FOXKkkXoYtbLr7TK5JaYlELa4K%2Br%2FYNGbnxqrVVp5xRlwoMgaEJVXXSQPlZK7LBt7BXvA3TLBXvujSpaGePeQEqL8dK%2B%2FAtXwnwAEvuGv5SK6Ho4o5R5QiM1TgZ2k5m1AYoZEE%2BTRMoRt%2B8jW6bamHcE3mO84dSCgW9aq%2BHT7H5iVDc9AB30N%2BAig0%2FifNTtl7o6tXi8XSYdtAlXcGIrB981xJWJx%2BKnYRc%2FN46jvQ5x10nsUsk9zil1l%2B1kQ2hh3d597tMjaGfp1PsoU01p32NHW5ku3bv3%2BRFtjJm06eGc7uPr3ga4oDkGqaPCx2BbPfk706mZ%2FE64JplK6c2bnYcPdIBKpNFs%2FEwbm4LIt5VVQoZ%2Fp5uSMLXTkJ8GOp8BNMJ9zQ1dSt9cYDljh28n%2BvQFiZNX2AqVAqw2JUclc8%2BkkKcAgmoeQxUkK5EpMJ23ZYEyf33BwKUcLOI1XtkKziicrav7d6RM6ad3AO8ZFU2DLRUpM9g2elRsENi7jJcZrCSOtseQrlzwqEFPLcE0cHI9AJhHiDyiHKupBjAzqnyhC77sHCvaNZChJhKlDQyZ0dvxXA%2BmoCm0%2FDUbSC2R&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA344XTOE6SZSCH7HJ%2F20230209%2Feu-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230209T004432Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Signature=05f9dc1d9b486a4b66e94dc5b7a2d03f3bfed3afd50fe244ef6ce2011599028b",
+                    coordinates : {
+                        lat: 45.4642035,
+                        lng: 9.189982,
+                    },
+                    flag_name: "gp.svg",
+                    id: 19,
+                    info: "46yrs Guadeloupe, lives in Milan, , Italy",
+                    is_certified: false,
+                    name: "Marco",
+                    qualitySCore: 0,
+                    slogan: "Test slogan hhkj jjj"
+                },
+                {
+                    avatar_uri: "https://dzhwp9ifoefa5.cloudfront.net/2888b92c-235f-49ea-a030-a276b2005ac7/images/empty-photo.jpg",
+                    coordinates: {lat: 45.4453035, lng: 9.199982},
+                    flag_name: "",
+                    id: 149,
+                    info: "lives in Milan, , Italy",
+                    is_certified: false,
+                    name: "Baylee",
+                    qualitySCore: 0,
+                    slogan: null
+                },
+            ],
+            showInfoById: false
+        };
     },
-
     mounted() {
+        this.loading = true
         getServiceNotice({})
             .then((data) => {
                 this.loading = false
                 console.log(data)
-                this.guides = data
             })
             .catch(() => {
                 this.loading = false
             })
-    },
-}
+    }
+};
 </script>
 
-<template>
-    <section>
-        <div class="loading" v-if="loading">Loading</div>
-        <GMapMap v-if="!loading" :center="center" :zoom="7" map-type-id="terrain" style="width: 100%; height: 100vh">
-            <GMapCluster>
-                <GMapMarker
-                    :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    :clickable="true"
-                    :draggable="true"
-                    :label="{
-                        text: guide.name,
-                        fontSize: '16px',
-                        className: 'map-label',
-                    }"
-                    :icon="{
-                        url: '',
-                        scaledSize: { width: 0, height: 10 },
-                        labelOrigin: { x: 0, y: 12 },
-                    }"
-                >
-                    <!-- @click="showByIndex = indexLocation" -->
-                    <!-- @closeclick="showByIndex = null" -->
-                    <!-- :opened="showByIndex === indexLocation" -->
-                    <GMapInfoWindow>
-                        <div class="info-popup">
-                            <div><img :src="guide.avatar_uri" /></div>
-                            <div class="detail">
-                                <p class="basic">
-                                    <span class="name">{{ guide.name }}</span>
-                                    <span class="score">{{ guide.qualitySCore }}</span>
-                                </p>
-                                <p class="info">{{ guide.info }}</p>
-                                <p class="slogan">{{ guide.slogan }}</p>
-                            </div>
-                        </div>
-                    </GMapInfoWindow>
-                </GMapMarker>
-            </GMapCluster>
-        </GMapMap>
-    </section>
-</template>
-
-<style src="./style.scss" lang="scss"></style>
+<style>
+.gm-style div[role=button] img {
+    border-radius: 50% !important;
+}
+</style>
