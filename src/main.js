@@ -10,6 +10,7 @@ app.use(VueGoogleMaps, {
         key: 'AIzaSyCFuKFw8DT4dp_72auCGnCGm2vg4lPX2_s',
         libraries: 'places',
     },
-})
+}).mount('#app')
 
-app.mount('#app')
+
+// app

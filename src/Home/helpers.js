@@ -9,7 +9,7 @@ import axios from 'axios'
     travel-requests
 */
 
-export const getServiceNotice = ({ type = 'private-guides', viewType = 'map', placeId = 'ChIJ53USP0nBhkcRjQ50xhPN_zw' }) => {
+export const getServiceNotice = ({ type = 'private-guides', viewType = 'map', zoom = '12' }) => {
     return new Promise((resolve, reject) => {
         const token = 'oEs8lYJC9RSnAUBb1C5XjBpAYDqXHWdbh6nLfxBK'
 
@@ -18,7 +18,7 @@ export const getServiceNotice = ({ type = 'private-guides', viewType = 'map', pl
                 params: {
                     type: type,
                     viewType: viewType,
-                    placeId: placeId
+                    zoom: zoom
                 },
                 headers: { Authorization: `Bearer ${token}` },
             })
