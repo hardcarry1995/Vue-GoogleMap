@@ -1,37 +1,37 @@
 .map-label {
-    color: white !important;
+  color: white !important;
 }
 
 .info-popup {
+  display: flex;
+  p {
+    margin: 0;
+  }
+  img {
+    max-width: 70px;
+    max-height: 70px;
+  }
+  .detail {
+    margin-left: 10px;
+    font-size: 14px;
+    max-width: 150px;
     display: flex;
-    p {
-        margin: 0;
-    }
-    img {
-        max-width: 70px;
-        max-height: 70px;
-    }
-    .detail {
-        margin-left: 10px;
-        font-size: 14px;
-        max-width: 150px;
-        display: flex;
-        flex-direction: column;
-        .basic {
-            display: flex;
-            justify-content: space-between;
+    flex-direction: column;
+    .basic {
+      display: flex;
+      justify-content: space-between;
 
-            .name {
-                font-weight: bold;
-            }
-        }
-        .info {
-            margin: 3px 0;
-            flex-grow: 1;
-        }
-        .slogan {
-            font-weight: bold;
-            text-align: center;
-        }
+      .name {
+        font-weight: bold;
+      }
     }
+    .info {
+      margin: 3px 0;
+      flex-grow: 1;
+    }
+    .slogan {
+      font-weight: bold;
+      text-align: center;
+    }
+  }
 }

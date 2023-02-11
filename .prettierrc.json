@@ -1,8 +1,8 @@
 {
-    "arrowParens": "always",
-    "printWidth": 120,
-    "quoteProps": "preserve",
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 4
+  "arrowParens": "always",
+  "printWidth": 120,
+  "quoteProps": "preserve",
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2
 }

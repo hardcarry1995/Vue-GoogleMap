@@ -1,5 +1,5 @@
 <template>
-    <Home />
+  <Home />
 </template>
 
 <script setup>
@@ -8,7 +8,7 @@ import Home from './Home/index.vue'
 
 <style>
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 </style>

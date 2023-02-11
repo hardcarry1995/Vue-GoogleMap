@@ -5,12 +5,13 @@ import VueGoogleMaps from 'vue-google-maps-community-fork'
 
 let app = createApp(App)
 
-app.use(VueGoogleMaps, {
+app
+  .use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyCFuKFw8DT4dp_72auCGnCGm2vg4lPX2_s',
-        libraries: 'places',
+      key: 'AIzaSyCFuKFw8DT4dp_72auCGnCGm2vg4lPX2_s',
+      libraries: 'places',
     },
-}).mount('#app')
-
+  })
+  .mount('#app')
 
 // app

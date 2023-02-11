@@ -1,29 +1,29 @@
 {
-    "name": "vue-travel",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "dev": "vite --port 9000",
-        "build": "vite build",
-        "preview": "vite preview",
-        "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
-        "lint:prettier": "prettier --check .",
-        "lint": "yarn lint:js && yarn lint:prettier",
-        "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
-    },
-    "dependencies": {
-        "axios": "^1.2.3",
-        "sass": "^1.57.1",
-        "vue": "^3.2.45",
-        "vue-google-maps-community-fork": "^0.2.2"
-    },
-    "devDependencies": {
-        "@rushstack/eslint-patch": "^1.1.4",
-        "@vitejs/plugin-vue": "^4.0.0",
-        "@vue/eslint-config-prettier": "^7.0.0",
-        "eslint": "^8.22.0",
-        "eslint-plugin-vue": "^9.3.0",
-        "prettier": "^2.7.1",
-        "vite": "^4.0.0"
-    }
+  "name": "vue-travel",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --port 9000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+  },
+  "dependencies": {
+    "axios": "^1.2.3",
+    "sass": "^1.57.1",
+    "vue": "^3.2.45",
+    "vue-google-maps-community-fork": "^0.2.2"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
+    "vite": "^4.0.0"
+  }
 }
